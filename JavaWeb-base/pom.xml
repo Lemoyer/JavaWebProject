@@ -9,12 +9,16 @@
         <relativePath>../JavaWeb-parent</relativePath>
     </parent>
     <artifactId>JavaWeb-base</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>JavaWeb-base</name>
+    <description>JavaWeb-base</description>
 
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
