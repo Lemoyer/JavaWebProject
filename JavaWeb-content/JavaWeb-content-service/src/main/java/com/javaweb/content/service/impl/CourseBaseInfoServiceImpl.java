@@ -25,15 +25,15 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         LambdaQueryWrapper<CourseBase> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(StringUtils.isNotEmpty(queryCourseParamsDto.getCourseName()),CourseBase::getName,queryCourseParamsDto.getCourseName());
         queryWrapper.eq(StringUtils.isNotEmpty(queryCourseParamsDto.getAuditStatus()),CourseBase::getAuditStatus,queryCourseParamsDto.getAuditStatus());
+        queryWrapper.eq(StringUtils.isNotEmpty(queryCourseParamsDto.getPublishStatus()), CourseBase::getStatus, queryCourseParamsDto.getPublishStatus());
+
         Page<CourseBase> page = new Page<>(pageParams.getPageNo(), pageParams.getPageSize());
         // 查询数据内容获得结果
         Page<CourseBase> pageResult = courseBaseMapper.selectPage(page, queryWrapper);
-        // 获取数据列表
-        List<CourseBase> list = pageResult.getRecords();
+        List<CourseBase> items = pageResult.getRecords();
         // 获取数据总数
         long total = pageResult.getTotal();
         // 构建结果集
-        PageResult<CourseBase> theResult = new PageResult<>(list, total, pageParams.getPageNo(), pageParams.getPageSize());
-        return theResult;
+        return  new PageResult<>(items, total, pageParams.getPageNo(), pageParams.getPageSize());
     }
 }
