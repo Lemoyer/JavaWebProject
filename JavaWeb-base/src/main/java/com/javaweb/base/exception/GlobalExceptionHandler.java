@@ -11,18 +11,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 //@RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(JavaWebException.class)
+
     @ResponseBody
+    @ExceptionHandler(JavaWebException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public RestErrorResponse  customException(JavaWebException e) {
+    public RestErrorResponse customException(JavaWebException e) {
         log.error("【系统异常】{}",e.getErrMessage(),e);
         return new RestErrorResponse(e.getErrMessage());
     }
 
-    @ExceptionHandler(Exception.class)
+
     @ResponseBody
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public RestErrorResponse  exception(Exception e) {
+    public RestErrorResponse exception(Exception e) {
         log.error("【系统异常】{}",e.getMessage(),e);
         return new RestErrorResponse(CommonError.UNKOWN_ERROR.getErrMessage());
     }

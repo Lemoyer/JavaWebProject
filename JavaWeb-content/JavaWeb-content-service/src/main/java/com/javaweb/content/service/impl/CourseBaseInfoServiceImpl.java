@@ -108,16 +108,16 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
             throw new JavaWebException("保存课程营销信息失败");
         }
 
-        return null;
+        return getCourseBaseInfo(courseId);
     }
     private int saveCourseMarket(CourseMarket courseMarketNew){
         String charge = courseMarketNew.getCharge();
         if (StringUtils.isBlank(charge)){
-            throw new RuntimeException("收费规则没有选择");
+            throw new JavaWebException("收费规则没有选择");
         }
         if(charge.equals("201001")){
             if(courseMarketNew.getPrice() == null || courseMarketNew.getPrice().floatValue()<=0){
-                throw new RuntimeException("课程为收费价格不能为空且必须大于0");
+                throw new JavaWebException("课程为收费价格不能为空且必须大于0");
             }
         }
         CourseMarket courseMarketObj = courseMarketMapper.selectById(courseMarketNew.getId());
