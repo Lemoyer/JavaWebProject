@@ -2,6 +2,8 @@ package com.javaweb.content.api;
 
 import com.javaweb.base.model.PageParams;
 import com.javaweb.base.model.PageResult;
+import com.javaweb.content.model.dto.AddCourseDto;
+import com.javaweb.content.model.dto.CourseBaseInfoDto;
 import com.javaweb.content.model.dto.QueryCourseParamsDto;
 import com.javaweb.content.model.po.CourseBase;
 import com.javaweb.content.service.CourseBaseInfoService;
@@ -24,4 +26,9 @@ public class CourseBaseInfoController {
         return result;
 
     }
-}
+
+    @PostMapping("/course")
+    public CourseBaseInfoDto createCourseBase(@RequestBody AddCourseDto addCourseDto){
+        return null;
+
+    }}
