@@ -29,6 +29,8 @@ public class CourseBaseInfoController {
 
     @PostMapping("/course")
     public CourseBaseInfoDto createCourseBase(@RequestBody AddCourseDto addCourseDto){
-        return null;
+        Long companyId = 1232141425L;
+        CourseBaseInfoDto courseDto = courseBaseInfoService.createCourseBase(companyId,addCourseDto);
+        return courseDto;
 
     }}

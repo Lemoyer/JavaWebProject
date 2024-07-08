@@ -12,6 +12,30 @@ Content-Type: application/json
 ###
 GET {{content_host}}/content/course-category/tree-nodes
 
+
+###
+
+POST  {{content_host}}/content/course
+Content-Type: application/json
+
+{
+  "charge": "201000",
+  "price": 0,
+  "originalPrice":0,
+  "qq": "22333",
+  "wechat": "223344",
+  "phone": "13333333",
+  "validDays": 365,
+  "mt": "1-1",
+  "st": "1-1-1",
+  "name": "",
+  "pic": "",
+  "teachmode": "200002",
+  "users": "初级人员",
+  "tags": "",
+  "grade": "204001",
+  "description": "lililili"
+}
 <> 2024-07-08T100019.200.json
 <> 2024-07-08T095855.404.html
 <> 2024-07-08T095753.404.html
