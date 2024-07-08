@@ -2,6 +2,7 @@ package com.javaweb.content.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.javaweb.base.exception.JavaWebException;
 import com.javaweb.base.model.PageParams;
 import com.javaweb.base.model.PageResult;
 import com.javaweb.content.mapper.CourseBaseMapper;
@@ -54,31 +55,31 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
     public CourseBaseInfoDto createCourseBase(Long companyId, AddCourseDto dto) {
         //合法性校验
         if (StringUtils.isBlank(dto.getName())) {
-            throw new RuntimeException("课程名称为空");
+            throw new JavaWebException("课程名称为空");
         }
 
         if (StringUtils.isBlank(dto.getMt())) {
-            throw new RuntimeException("课程分类为空");
+            throw new JavaWebException("课程分类为空");
         }
 
         if (StringUtils.isBlank(dto.getSt())) {
-            throw new RuntimeException("课程分类为空");
+            throw new JavaWebException("课程分类为空");
         }
 
         if (StringUtils.isBlank(dto.getGrade())) {
-            throw new RuntimeException("课程等级为空");
+            throw new JavaWebException("课程等级为空");
         }
 
         if (StringUtils.isBlank(dto.getTeachmode())) {
-            throw new RuntimeException("教育模式为空");
+            throw new JavaWebException("教育模式为空");
         }
 
         if (StringUtils.isBlank(dto.getUsers())) {
-            throw new RuntimeException("适应人群为空");
+            throw new JavaWebException("适应人群为空");
         }
 
         if (StringUtils.isBlank(dto.getCharge())) {
-            throw new RuntimeException("收费规则为空");
+            throw new JavaWebException("收费规则为空");
         }
 
 
@@ -95,7 +96,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         int status = courseBaseMapper.insert(courseBaseNew);
 
         if(status<=0){
-            throw new RuntimeException("新增课程基本信息失败");
+            throw new JavaWebException("新增课程基本信息失败");
         }
 
         CourseMarket courseMarketNew = new CourseMarket();
@@ -104,7 +105,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         courseMarketNew.setId(courseId);
         int i = saveCourseMarket(courseMarketNew);
         if(i<=0){
-            throw new RuntimeException("保存课程营销信息失败");
+            throw new JavaWebException("保存课程营销信息失败");
         }
 
         return null;
@@ -141,8 +142,8 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         }
         CourseCategory courseCategory = courseCategoryMapper.selectById(courseBase.getId());
         courseBaseInfoDto.setStName(courseCategory.getName());
-        CourseCategory courseCategoryByMt = courseCategoryMapper.selectById(courseBase.getMt());
-        courseBaseInfoDto.setMtName(courseCategory.getName());
+        CourseCategory courseCategoryS = courseCategoryMapper.selectById(courseBase.getMt());
+        courseBaseInfoDto.setMtName(courseCategoryS.getName());
         return courseBaseInfoDto;
     }
 }
