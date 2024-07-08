@@ -1,6 +1,7 @@
 package com.javaweb.content.api;
 
 import com.javaweb.content.model.dto.CourseCategoryTreeDto;
+import com.javaweb.content.service.CourseCategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +12,10 @@ import java.util.List;
 @RestController
 public class CourseCategoryController {
     @Autowired
-
+    CourseCategoryService courseCategoryService;
 
     @GetMapping("/course-category/tree-nodes")
     public List<CourseCategoryTreeDto> queryTreeNodes(){
-        return null;
+        return courseCategoryService.queryTreeNodes("1");
     }
 }
