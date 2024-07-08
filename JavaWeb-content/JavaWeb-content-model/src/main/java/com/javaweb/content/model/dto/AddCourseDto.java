@@ -45,6 +45,7 @@ public class AddCourseDto {
  private String teachmode;
 
  @ApiModelProperty(value = "课程介绍")
+ @Size(message = "适用人群内容过少",min = 10,max = 500)
  private String description;
 
  @ApiModelProperty(value = "课程图片", required = true)
