@@ -1,5 +1,6 @@
 package com.javaweb.content.api;
 
+import com.javaweb.base.exception.ValidationGroups;
 import com.javaweb.base.model.PageParams;
 import com.javaweb.base.model.PageResult;
 import com.javaweb.content.model.dto.AddCourseDto;
@@ -29,7 +30,7 @@ public class CourseBaseInfoController {
     }
 
     @PostMapping("/course")
-    public CourseBaseInfoDto createCourseBase(@RequestBody @Validated  AddCourseDto addCourseDto){
+    public CourseBaseInfoDto createCourseBase(@RequestBody @Validated({ValidationGroups.Insert.class})  AddCourseDto addCourseDto){
         Long companyId = 1232141425L;
         CourseBaseInfoDto courseDto = courseBaseInfoService.createCourseBase(companyId,addCourseDto);
         return courseDto;
