@@ -110,7 +110,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
 
         return getCourseBaseInfo(courseId);
     }
-    private int saveCourseMarket(CourseMarket courseMarketNew){
+    public int saveCourseMarket(CourseMarket courseMarketNew){
         String charge = courseMarketNew.getCharge();
         if (StringUtils.isBlank(charge)){
             throw new JavaWebException("收费规则没有选择");
@@ -129,7 +129,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
             return courseMarketMapper.updateById(courseMarketObj);
         }
     }
-    private CourseBaseInfoDto getCourseBaseInfo(long courseId){
+    public CourseBaseInfoDto getCourseBaseInfo(Long courseId){
         CourseBase courseBase = courseBaseMapper.selectById(courseId);
         if (courseBase == null){
             return null;
@@ -140,10 +140,10 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
         if(courseMarket != null){
             BeanUtils.copyProperties(courseMarket,courseBaseInfoDto);
         }
-        CourseCategory courseCategory = courseCategoryMapper.selectById(courseBase.getId());
-        courseBaseInfoDto.setStName(courseCategory.getName());
-        CourseCategory courseCategoryS = courseCategoryMapper.selectById(courseBase.getMt());
-        courseBaseInfoDto.setMtName(courseCategoryS.getName());
+        CourseCategory courseCategoryS = courseCategoryMapper.selectById(courseBase.getSt());
+        courseBaseInfoDto.setStName(courseCategoryS.getName());
+        CourseCategory courseCategoryM = courseCategoryMapper.selectById(courseBase.getMt());
+        courseBaseInfoDto.setMtName(courseCategoryM.getName());
         return courseBaseInfoDto;
     }
 }
