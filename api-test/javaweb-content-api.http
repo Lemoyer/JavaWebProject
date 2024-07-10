@@ -3,14 +3,22 @@ POST {{content_host}}/content/course/list?pageNo=1&pageSize=2
 Content-Type: application/json
 
 {
-  "auditStatus": "202004",
-  "courseName": "Java",
-  "publishStatus": ""
+  "auditStatus": "202002",
+  "courseName": ""
+}
+
+###使用网关
+POST {{gateway_host}}/content/course/list?pageNo=1&pageSize=2
+Content-Type: application/json
+
+{
+  "auditStatus": "202002",
+  "courseName": ""
 }
 
 
 ###
-GET {{content_host}}/content/course-category/tree-nodes
+GET {{gateway_host}}/content/course-category/tree-nodes
 
 
 ###
@@ -39,7 +47,7 @@ Content-Type: application/json
 
 
 ### 查询课程信息
-GET {{content_host}}/content/course/27
+GET {{gateway_host}}/content/course/27
 Content-Type: application/json
 
 
