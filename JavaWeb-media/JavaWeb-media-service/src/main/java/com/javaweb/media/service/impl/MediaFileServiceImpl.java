@@ -37,6 +37,8 @@ public class MediaFileServiceImpl implements MediaFileService {
 
   @Autowired
  MediaFilesMapper mediaFilesMapper;
+  @Autowired
+  MediaFileService currentProxy;
 
  @Override
  public PageResult<MediaFiles> queryMediaFiels(Long companyId,PageParams pageParams, QueryMediaParamsDto queryMediaParamsDto) {
@@ -191,7 +193,7 @@ public class MediaFileServiceImpl implements MediaFileService {
   //文件大小
   uploadFileParamsDto.setFileSize(file.length());
   //将文件信息存储到数据库
-  MediaFiles mediaFiles = addMediaFilesToDb(companyId, fileMd5, uploadFileParamsDto, bucket_Files, objectName);
+  MediaFiles mediaFiles = currentProxy.addMediaFilesToDb(companyId, fileMd5, uploadFileParamsDto, bucket_Files, objectName);
   //准备返回数据
   UploadFileResultDto uploadFileResultDto = new UploadFileResultDto();
   BeanUtils.copyProperties(mediaFiles, uploadFileResultDto);
