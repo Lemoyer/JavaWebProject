@@ -8,6 +8,8 @@ import com.javaweb.media.model.dto.UploadFileParamsDto;
 import com.javaweb.media.model.dto.UploadFileResultDto;
 import com.javaweb.media.model.po.MediaFiles;
 
+import java.io.File;
+
 /**
  * @description 媒资文件管理业务类
  * @author Mr.M
@@ -37,4 +39,10 @@ public interface MediaFileService {
  public RestResponse uploadChunk(String fileMd5,int chunk,String localChunkFilePath);
 
  public RestResponse mergechunks(Long companyId,String fileMd5,int chunkTotal,UploadFileParamsDto uploadFileParamsDto);
+
+ public File downloadFileFromMinIO(String bucket, String objectName);
+
+ public boolean addMediaFilesToMinIO(String localFilePath,String mimeType,String bucket, String objectName);
+
+ public String getFilePathByMd5(String fileMd5, String extension);
 }

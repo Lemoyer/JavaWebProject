@@ -9,10 +9,12 @@ import com.javaweb.base.model.PageParams;
 import com.javaweb.base.model.PageResult;
 import com.javaweb.base.model.RestResponse;
 import com.javaweb.media.mapper.MediaFilesMapper;
+import com.javaweb.media.mapper.MediaProcessMapper;
 import com.javaweb.media.model.dto.QueryMediaParamsDto;
 import com.javaweb.media.model.dto.UploadFileParamsDto;
 import com.javaweb.media.model.dto.UploadFileResultDto;
 import com.javaweb.media.model.po.MediaFiles;
+import com.javaweb.media.model.po.MediaProcess;
 import com.javaweb.media.service.MediaFileService;
 import io.minio.*;
 import io.minio.messages.DeleteError;
@@ -47,6 +49,8 @@ public class MediaFileServiceImpl implements MediaFileService {
 
   @Autowired
   MinioClient minioClient;
+    @Autowired
+    private MediaProcessMapper mediaProcessMapper;
 
  @Override
  public PageResult<MediaFiles> queryMediaFiels(Long companyId,PageParams pageParams, QueryMediaParamsDto queryMediaParamsDto) {
@@ -119,7 +123,7 @@ public class MediaFileServiceImpl implements MediaFileService {
   * @author Mr.M
   * @date 2022/10/12 21:22
   */
-
+ @Override
  public boolean addMediaFilesToMinIO(String localFilePath,String mimeType,String bucket, String objectName) {
   try {
    UploadObjectArgs testbucket = UploadObjectArgs.builder()
@@ -147,7 +151,7 @@ public class MediaFileServiceImpl implements MediaFileService {
   * @param uploadFileParamsDto  上传文件的信息
   * @param bucket  桶
   * @param objectName 对象名称
-  * @return com.xuecheng.media.model.po.MediaFiles
+  * @return
   * @author Mr.M
   * @date 2022/10/12 21:22
   */
@@ -175,11 +179,26 @@ public class MediaFileServiceImpl implements MediaFileService {
     JavaWebException.cast("保存文件信息失败");
    }
    log.debug("保存文件信息到数据库成功,{}",mediaFiles.toString());
-
+   addWaitingTask(mediaFiles);
   }
   return mediaFiles;
 
  }
+ private void  addWaitingTask(MediaFiles mediaFiles){
+  String filename = mediaFiles.getFilename();
+  String extension = filename.substring(filename.lastIndexOf("."));
+  String mimeType = getMimeType(extension);
+
+  if (mimeType.equals("video/x-msvideo")){
+   MediaProcess mediaProcess = new MediaProcess();
+   BeanUtils.copyProperties(mediaFiles, mediaProcess);
+   mediaProcess.setStatus("1");
+   mediaProcess.setFailCount(0);
+   mediaProcessMapper.insert(mediaProcess);
+  }
+ }
+
+
  @Transactional
  @Override
  public UploadFileResultDto uploadFile(Long companyId, UploadFileParamsDto uploadFileParamsDto, String localFilePath) {
@@ -363,12 +382,16 @@ public class MediaFileServiceImpl implements MediaFileService {
    return RestResponse.success(true);
   }
 
-  /**
+
+
+
+ /**
    * 从minio下载文件
    * @param bucket 桶
    * @param objectName 对象名称
    * @return 下载后的文件
    */
+ @Override
   public File downloadFileFromMinIO(String bucket,String objectName){
    //临时文件
    File minioFile = null;
@@ -402,7 +425,8 @@ public class MediaFileServiceImpl implements MediaFileService {
    * @param fileExt 文件扩展名
    * @return
    */
-  private String getFilePathByMd5(String fileMd5,String fileExt){
+  @Override
+  public String getFilePathByMd5(String fileMd5, String fileExt){
    return   fileMd5.substring(0,1) + "/" + fileMd5.substring(1,2) + "/" + fileMd5 + "/" +fileMd5 +fileExt;
   }
 
@@ -435,5 +459,7 @@ public class MediaFileServiceImpl implements MediaFileService {
     log.error("清楚分块文件失败,chunkFileFolderPath:{}",chunkFileFolderPath,e);
    }
   }
+
+
 
  }
