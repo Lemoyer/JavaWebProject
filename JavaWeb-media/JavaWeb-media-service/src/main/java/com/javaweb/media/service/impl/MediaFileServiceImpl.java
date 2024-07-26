@@ -263,6 +263,15 @@ public class MediaFileServiceImpl implements MediaFileService {
   }
 
 
+ @Override
+ public MediaFiles getFileById(String id) {
+  MediaFiles mediaFiles = mediaFilesMapper.selectById(id);
+  if (mediaFiles == null || StringUtils.isEmpty(mediaFiles.getUrl())) {
+   JavaWebException.cast("视频还没有转码处理");
+  }
+  return mediaFiles;
+ }
+
 
   @Override
   public RestResponse<Boolean> checkChunk(String fileMd5, int chunkIndex) {

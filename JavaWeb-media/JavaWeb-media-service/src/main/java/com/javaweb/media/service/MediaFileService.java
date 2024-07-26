@@ -45,4 +45,6 @@ public interface MediaFileService {
  public boolean addMediaFilesToMinIO(String localFilePath,String mimeType,String bucket, String objectName);
 
  public String getFilePathByMd5(String fileMd5, String extension);
+
+ public MediaFiles getFileById(String mediaId);
 }
