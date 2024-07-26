@@ -130,6 +130,7 @@ public class CourseBaseInfoServiceImpl implements CourseBaseInfoService {
             return courseMarketMapper.updateById(courseMarketObj);
         }
     }
+
     public CourseBaseInfoDto getCourseBaseInfo(Long courseId){
         CourseBase courseBase = courseBaseMapper.selectById(courseId);
         if (courseBase == null){
