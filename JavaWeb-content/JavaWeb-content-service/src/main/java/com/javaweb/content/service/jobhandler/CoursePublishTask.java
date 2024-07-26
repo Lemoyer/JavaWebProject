@@ -1,19 +1,23 @@
 package com.javaweb.content.service.jobhandler;
 
+import com.javaweb.content.service.CoursePublishService;
 import com.javaweb.messagesdk.model.po.MqMessage;
 import com.javaweb.messagesdk.service.MessageProcessAbstract;
 import com.javaweb.messagesdk.service.MqMessageService;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
 public class CoursePublishTask extends MessageProcessAbstract {
-
+    @Autowired
+    CoursePublishService coursePublishService;
 
     //任务调度入口
     @XxlJob("CoursePublishJobHandler")
@@ -61,6 +65,14 @@ public class CoursePublishTask extends MessageProcessAbstract {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        //课程静态化，生成html
+        File file = coursePublishService.generateCourseHtml(courseId);
+        //上传静态化页面
+        if(file!=null){
+            coursePublishService.uploadCourseHtml(courseId,file);
+        }
+
+
         //保存第一阶段状态
         mqMessageService.completedStageOne(id);
 
