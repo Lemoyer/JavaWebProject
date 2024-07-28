@@ -36,23 +36,23 @@ public class IndexServiceImpl implements IndexService {
 
  @Override
  public Boolean addCourseIndex(String indexName,String id,Object object) {
+  // 1. 创建request对象
+  IndexRequest request = new IndexRequest(indexName).id(id);
+  // 2. 准备请求参数，对应DSL语句中的JSON文档，所以要把对象序列化为JSON格式
   String jsonString = JSON.toJSONString(object);
-  IndexRequest indexRequest = new IndexRequest(indexName).id(id);
-  //指定索引文档内容
-  indexRequest.source(jsonString,XContentType.JSON);
-  //索引响应对象
-  IndexResponse indexResponse = null;
+  request.source(jsonString, XContentType.JSON);
+  IndexResponse response = null;
   try {
-   indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
+   // 3. 发送请求
+   response = client.index(request, RequestOptions.DEFAULT);
   } catch (IOException e) {
-   log.error("添加索引出错:{}",e.getMessage());
-   e.printStackTrace();
+   log.debug("添加索引出错：{}", e.getMessage());
    JavaWebException.cast("添加索引出错");
   }
-  String name = indexResponse.getResult().name();
-  System.out.println(name);
-  return name.equalsIgnoreCase("created") || name.equalsIgnoreCase("updated");
-
+  // 4. 获取请求结果
+  String result = response.getResult().name();
+  // 若文档不存在，则为CREATED，若文档存在，则为UPDATED，若两者均不是，就是出错了
+  return "updated".equalsIgnoreCase(result) || "created".equalsIgnoreCase(result);
  }
 
  @Override
@@ -65,26 +65,25 @@ public class IndexServiceImpl implements IndexService {
   try {
    updateResponse = client.update(updateRequest, RequestOptions.DEFAULT);
   } catch (IOException e) {
-   log.error("更新索引出错:{}",e.getMessage());
+   log.error("更新索引出错:{}", e.getMessage());
    e.printStackTrace();
    JavaWebException.cast("更新索引出错");
   }
   DocWriteResponse.Result result = updateResponse.getResult();
   return result.name().equalsIgnoreCase("updated");
-
  }
 
  @Override
  public Boolean deleteCourseIndex(String indexName,String id) {
 
   //删除索引请求对象
-  DeleteRequest deleteRequest = new DeleteRequest(indexName,id);
+  DeleteRequest deleteRequest = new DeleteRequest(indexName, id);
   //响应对象
   DeleteResponse deleteResponse = null;
   try {
    deleteResponse = client.delete(deleteRequest, RequestOptions.DEFAULT);
   } catch (IOException e) {
-   log.error("删除索引出错:{}",e.getMessage());
+   log.error("删除索引出错:{}", e.getMessage());
    e.printStackTrace();
    JavaWebException.cast("删除索引出错");
   }

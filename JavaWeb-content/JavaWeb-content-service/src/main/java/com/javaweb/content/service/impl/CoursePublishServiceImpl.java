@@ -5,11 +5,13 @@ import com.javaweb.base.exception.CommonError;
 import com.javaweb.base.exception.JavaWebException;
 import com.javaweb.content.config.MultipartSupportConfig;
 import com.javaweb.content.feignclient.MediaServiceClient;
+import com.javaweb.content.feignclient.SearchServiceClient;
 import com.javaweb.content.mapper.CourseBaseMapper;
 import com.javaweb.content.mapper.CourseMarketMapper;
 import com.javaweb.content.mapper.CoursePublishMapper;
 import com.javaweb.content.mapper.CoursePublishPreMapper;
 import com.javaweb.content.model.dto.CourseBaseInfoDto;
+import com.javaweb.content.model.dto.CourseIndex;
 import com.javaweb.content.model.dto.CoursePreviewDto;
 import com.javaweb.content.model.dto.TeachplanDto;
 import com.javaweb.content.model.po.CourseBase;
@@ -66,6 +68,8 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Autowired
     MqMessageService mqMessageService;
+    @Autowired
+    SearchServiceClient searchServiceClient;
 
     @Override
     public CoursePreviewDto getCoursePreviewInfo(Long courseId) {
@@ -279,5 +283,17 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         if(course==null){
             JavaWebException.cast("上传静态文件异常");
         }
+    }
+
+    @Override
+    public Boolean saveCourseIndex(Long courseId) {
+        CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
+        CourseIndex courseIndex = new CourseIndex();
+        BeanUtils.copyProperties(coursePublish,courseIndex);
+        Boolean result = searchServiceClient.add(courseIndex);
+        if(!result){
+            JavaWebException.cast("添加索引失败");
+        }
+        return true;
     }
 }

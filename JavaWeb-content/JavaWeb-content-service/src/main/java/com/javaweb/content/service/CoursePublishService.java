@@ -15,4 +15,7 @@ public interface CoursePublishService {
     public File generateCourseHtml(Long courseId);
 
     public void  uploadCourseHtml(Long courseId,File file);
+
+    public Boolean saveCourseIndex(Long courseId);
+
 }
