@@ -1,0 +1,41 @@
+### 授权码模式
+### 第一步申请授权码(浏览器请求)/oauth/authorize?client_id=c1&response_type=code&scope=all&redirect_uri=http://www.51xuecheng.cn
+### 第二步申请令牌
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=authorization_code&code=bpDhBt&redirect_uri=http://www.51xuecheng.cn
+
+
+#{
+#  "access_token": "1b1153c9-6271-41c0-b803-00ef84b01d09",
+#  "token_type": "bearer",
+#  "refresh_token": "8d2a0ffd-4c82-4bd9-bae1-955568ebe4e4",
+#  "expires_in": 7199,
+#  "scope": "all"
+#}
+### JWT密码模式
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=liam&password=123
+
+#{
+#  "access_token": "1b1153c9-6271-41c0-b803-00ef84b01d09",
+#  "token_type": "bearer",
+#  "refresh_token": "8d2a0ffd-4c82-4bd9-bae1-955568ebe4e4",
+#  "expires_in": 7028,
+#  "scope": "all"
+#}
+
+### 密码模式
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=liam&password=123
+
+#{
+#  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiSmF2YVdlYiJdLCJ1c2VyX25hbWUiOiJsaWFtIiwic2NvcGUiOlsiYWxsIl0sImV4cCI6MTcyMjE4NDM5NywiYXV0aG9yaXRpZXMiOlsicDEiXSwianRpIjoiYjAyYjFiOTItNmRlOS00Nzg5LWJjNzItMWVlMjA2MDQwN2FkIiwiY2xpZW50X2lkIjoiWGNXZWJBcHAifQ.z_ijE6g1ZWKFg85y_o8Klv9WWWteUzVDMJu6lJuq6Xw",
+#  "token_type": "bearer",
+#  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiSmF2YVdlYiJdLCJ1c2VyX25hbWUiOiJsaWFtIiwic2NvcGUiOlsiYWxsIl0sImF0aSI6ImIwMmIxYjkyLTZkZTktNDc4OS1iYzcyLTFlZTIwNjA0MDdhZCIsImV4cCI6MTcyMjQzNjM5NywiYXV0aG9yaXRpZXMiOlsicDEiXSwianRpIjoiYjUzYmQ2ZDYtOTgxZS00NmIzLWJkZTItYzNjY2NjZWUyMzdkIiwiY2xpZW50X2lkIjoiWGNXZWJBcHAifQ.OpEkkZrUOMCS1Jzl_hez4zG1L0Ziqf2gCv8v_NxQhXo",
+#  "expires_in": 7199,
+#  "scope": "all",
+#  "jti": "b02b1b92-6de9-4789-bc72-1ee2060407ad"
+#}
+
+###校验jwt令牌
+POST {{auth_host}}/auth/oauth/check_token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiSmF2YVdlYiJdLCJ1c2VyX25hbWUiOiJ7XCJjb21wYW55SWRcIjpcIjEyMzIxNDE0MjVcIixcImNyZWF0ZVRpbWVcIjpcIjIwMjItMDktMjhUMDg6MzI6MDNcIixcImlkXCI6XCI1MlwiLFwibmFtZVwiOlwiTeiAgeW4iFwiLFwic2V4XCI6XCIxXCIsXCJzdGF0dXNcIjpcIlwiLFwidXNlcm5hbWVcIjpcInQxXCIsXCJ1dHlwZVwiOlwiMTAxMDAyXCJ9Iiwic2NvcGUiOlsiYWxsIl0sImV4cCI6MTcyMjE4Nzc2MywiYXV0aG9yaXRpZXMiOlsicDEiXSwianRpIjoiMWFhZTFlYmEtYjZkZC00ZmI3LTkzOTctOTM1MjM3Yjc4NmU5IiwiY2xpZW50X2lkIjoiWGNXZWJBcHAifQ.sRe5ZT17pO8ETSUeOt_zz9yY_nN-dAe34wi3vloSoiI
+
+### 密码模式
+POST {{auth_host}}/auth/oauth/token?client_id=XcWebApp&client_secret=XcWebApp&grant_type=password&username=t1&password=111111

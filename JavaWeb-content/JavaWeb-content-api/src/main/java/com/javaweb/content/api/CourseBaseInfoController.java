@@ -9,6 +9,7 @@ import com.javaweb.content.model.dto.EditCourseDto;
 import com.javaweb.content.model.dto.QueryCourseParamsDto;
 import com.javaweb.content.model.po.CourseBase;
 import com.javaweb.content.service.CourseBaseInfoService;
+import com.javaweb.content.util.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,9 @@ public class CourseBaseInfoController {
     @ApiOperation("根据课程id查询课程基础信息")
     @GetMapping("/course/{courseId}")
     public CourseBaseInfoDto getCourseBaseById(@PathVariable Long courseId){
-
+        //Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SecurityUtil.XcUser user = SecurityUtil.getUser();
+        System.out.println(user.getName());
         return courseBaseInfoService.getCourseBaseInfo(courseId);
     }
 
