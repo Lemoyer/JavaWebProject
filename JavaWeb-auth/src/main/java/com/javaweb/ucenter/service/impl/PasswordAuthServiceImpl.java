@@ -1,7 +1,9 @@
 package com.javaweb.ucenter.service.impl;
 
+import com.alibaba.cloud.commons.lang.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.javaweb.ucenter.mapper.XcUserMapper;
+import com.javaweb.ucenter.feignclient.CheckCodeClient;
 import com.javaweb.ucenter.model.dto.AuthParamsDto;
 import com.javaweb.ucenter.model.dto.XcUserExt;
 import com.javaweb.ucenter.model.po.XcUser;
@@ -20,9 +22,25 @@ public class PasswordAuthServiceImpl implements AuthService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    CheckCodeClient checkCodeClient;
+
 
     @Override
     public XcUserExt execute(AuthParamsDto authParamsDto) {
+
+        //校验验证码
+        String checkcode = authParamsDto.getCheckcode();
+        String checkcodekey = authParamsDto.getCheckcodekey();
+
+        if(StringUtils.isBlank(checkcodekey) || StringUtils.isBlank(checkcode)){
+            throw new RuntimeException("验证码为空");
+
+        }
+        Boolean verify = checkCodeClient.verify(checkcodekey, checkcode);
+        if(!verify){
+            throw new RuntimeException("验证码输入错误");
+        }
 
         //账号
         String username = authParamsDto.getUsername();
