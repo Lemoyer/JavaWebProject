@@ -24,8 +24,7 @@ public class UserServiceImpl implements UserDetailsService {
     @Autowired
     ApplicationContext applicationContext;
 
-    @Autowired
-    AuthService authService;
+
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
