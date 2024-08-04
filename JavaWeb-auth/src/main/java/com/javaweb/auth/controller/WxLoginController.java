@@ -1,7 +1,9 @@
 package com.javaweb.auth.controller;
 
 import com.javaweb.ucenter.model.po.XcUser;
+import com.javaweb.ucenter.service.WxAuthService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,13 +13,15 @@ import java.io.IOException;
 @Controller
 public class WxLoginController {
 
-    @RequestMapping("/wxLogin")
+    @Autowired
+    WxAuthService wxAuthService;
+    @RequestMapping("/login")
     public String wxLogin(String code, String state) throws IOException {
         log.debug("微信扫码回调,code:{},state:{}",code,state);
         //请求微信申请令牌，拿到令牌查询用户信息，将用户信息写入本项目数据库
         System.out.println("微信扫码回调的授权码code: 【"+code+"】; 状态state: 【"+state+"】");
 
-        XcUser xcUser = new XcUser();
+        XcUser xcUser = wxAuthService.wxAuth(code);;
         //暂时硬编写，目的是调试环境
         xcUser.setUsername("t1");
         if(xcUser==null){
