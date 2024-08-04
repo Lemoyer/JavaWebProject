@@ -35,7 +35,7 @@ public class CourseBaseInfoController {
             companyId = Long.parseLong(user.getCompanyId());
         }
 
-        PageResult<CourseBase> result = courseBaseInfoService.queryCourseBaseList(companyId, queryCourseParams);
+        PageResult<CourseBase> result = courseBaseInfoService.queryCourseBaseList(companyId,pageParams, queryCourseParams);
         return result;
     }
     @ApiOperation("课程创建接口")
