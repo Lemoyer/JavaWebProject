@@ -296,4 +296,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         }
         return true;
     }
+
+    public CoursePublish getCoursePublish(Long courseId){
+        CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
+        return coursePublish ;
+    }
 }

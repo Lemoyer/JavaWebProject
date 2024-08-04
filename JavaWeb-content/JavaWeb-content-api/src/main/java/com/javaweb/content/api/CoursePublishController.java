@@ -1,6 +1,7 @@
 package com.javaweb.content.api;
 
 import com.javaweb.content.model.dto.CoursePreviewDto;
+import com.javaweb.content.model.po.CoursePublish;
 import com.javaweb.content.service.CoursePublishService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,9 @@ public class CoursePublishController {
         CoursePreviewDto coursePreviewInfo = coursePublishService.getCoursePreviewInfo(courseId);
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("model",coursePreviewInfo);
         modelAndView.setViewName("course_template");
+        modelAndView.addObject("model",coursePreviewInfo);
+
         return modelAndView;
 
 //        ModelAndView modelAndView = new ModelAndView();
@@ -52,4 +54,11 @@ public class CoursePublishController {
         coursePublishService.publish(companyId,courseId);
     }
 
+    @ApiOperation("查询课程发布信息")
+    @ResponseBody
+    @GetMapping("/r/coursepublish/{courseId}")
+    public CoursePublish getCoursepublish(@PathVariable("courseId") Long courseId) {
+        CoursePublish coursePublish = coursePublishService.getCoursePublish(courseId);
+        return coursePublish;
+    }
 }

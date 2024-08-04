@@ -1,6 +1,7 @@
 package com.javaweb.content.service;
 
 import com.javaweb.content.model.dto.CoursePreviewDto;
+import com.javaweb.content.model.po.CoursePublish;
 
 import java.io.File;
 
@@ -18,4 +19,5 @@ public interface CoursePublishService {
 
     public Boolean saveCourseIndex(Long courseId);
 
+    public CoursePublish getCoursePublish(Long courseId);
 }
