@@ -5,10 +5,10 @@ spring:
     nacos:
       server-addr: 192.168.101.65:8848
       discovery:
-        namespace: ${spring.profiles.active}
+        namespace: devJavaWeb
         group: JavaWebProject
       config:
-        namespace: ${spring.profiles.active}
+        namespace: devJavaWeb
         group: JavaWebProject
         file-extension: yaml
         refresh-enabled: true
