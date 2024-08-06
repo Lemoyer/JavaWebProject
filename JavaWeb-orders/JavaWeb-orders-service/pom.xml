@@ -19,6 +19,10 @@
             <version>3.7.73.ALL</version>
 
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
 
         <!-- 支付宝SDK依赖的日志 -->
         <dependency>
@@ -48,11 +52,6 @@
             <version>3.3.3</version>
 
         </dependency>
-
-
-
-
-
 
 
         <dependency>
@@ -109,10 +108,7 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

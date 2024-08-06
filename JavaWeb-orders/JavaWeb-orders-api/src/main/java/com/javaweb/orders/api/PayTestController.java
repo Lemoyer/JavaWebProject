@@ -40,11 +40,11 @@ public class PayTestController {
         //获得初始化的AlipayClient
         AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();//创建API对应的request
 //        alipayRequest.setReturnUrl("http://domain.com/CallBack/return_url.jsp");
-        alipayRequest.setNotifyUrl(" http://49i49v.natappfree.cc/orders/paynotify");//在公共参数中设置回跳和通知地址
+        alipayRequest.setNotifyUrl("http://ewn9rc.natappfree.cc/orders/paynotify");//在公共参数中设置回跳和通知地址
         alipayRequest.setBizContent("{" +
-                "    \"out_trade_no\":\"202510100010101003\"," +
-                "    \"total_amount\":8999.0," +
-                "    \"subject\":\"Iphone16 128G\"," +
+                "    \"out_trade_no\":\"1228648111951941632\"," +
+                "    \"total_amount\":6999.0," +
+                "    \"subject\":\"Iphone15 128G\"," +
                 "    \"product_code\":\"QUICK_WAP_WAY\"" +
                 "  }");//填充业务参数
         String form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
