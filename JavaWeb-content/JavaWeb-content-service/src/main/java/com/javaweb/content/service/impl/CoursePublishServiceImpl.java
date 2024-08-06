@@ -30,6 +30,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
@@ -48,6 +49,9 @@ public class CoursePublishServiceImpl implements CoursePublishService {
 
     @Autowired
     CourseBaseInfoService courseBaseInfoService;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @Autowired
     TeachplanService teachplanService;
@@ -84,6 +88,8 @@ public class CoursePublishServiceImpl implements CoursePublishService {
         coursePreviewDto.setTeachplans(teachplanTree);
         return coursePreviewDto;
     }
+
+
 
     @Transactional
     @Override
@@ -300,5 +306,24 @@ public class CoursePublishServiceImpl implements CoursePublishService {
     public CoursePublish getCoursePublish(Long courseId){
         CoursePublish coursePublish = coursePublishMapper.selectById(courseId);
         return coursePublish ;
+    }
+
+    @Override
+    public CoursePublish getCoursePublishCache(Long courseId) {
+        Object  jsonObj = redisTemplate.opsForValue().get("course:" + courseId);
+        if(jsonObj!=null){
+            String jsonString = jsonObj.toString();
+            System.out.println("=================从缓存查=================");
+            CoursePublish coursePublish = JSON.parseObject(jsonString, CoursePublish.class);
+            return coursePublish;
+        } else {
+            System.out.println("从数据库查询...");
+            //从数据库查询
+            CoursePublish coursePublish = getCoursePublish(courseId);
+            if(coursePublish!=null){
+                redisTemplate.opsForValue().set("course:" + courseId, JSON.toJSONString(coursePublish));
+            }
+            return coursePublish;
+        }
     }
 }
